@@ -23,15 +23,15 @@ function program(A, Q, Q1, M, negM, len, tempString) {
     `<h2>Solution:</h2>
       <div class="SBSgiven container">
         <div class="row">
-          <div id="negmdiv" class="gCol col-4 border border-dark">-M: ${negM}</div>
+          <div id="negmdiv" class="gCol col-3 border border-dark">-M: ${negM}</div>
         </div>
         <div class="row">
-          <div id="mdiv" class="gCol col-4 border border-dark"> M: ${M}</div>
+          <div id="mdiv" class="gCol col-3 border border-dark"> M: ${M}</div>
         </div>
         <div class="row">
-          <div id="adiv" class="gCol col border border-dark"> A: ${A}</div>
-          <div id="qdiv" class="gCol col border border-dark"> Q: ${Q}</div>
-          <div id="q1div" class="gCol col border border-dark"> Q<sub>-1</sub>: ${Q1}</div>
+          <div id="adiv" class="gCol col-3 border border-dark"> A: ${A}</div>
+          <div id="qdiv" class="gCol col-3 border border-dark"> Q: ${Q}</div>
+          <div id="q1div" class="gCol col-3 border border-dark"> Q<sub>-1</sub>: ${Q1}</div>
         </div>
       </div>
       <div class="SBSstep container"></div>`
@@ -39,10 +39,13 @@ function program(A, Q, Q1, M, negM, len, tempString) {
   for (let i = 0; i < len; i++) {
     console.log(i + 1 + ".)");
 
-    tempString = compare(tempString, i, A, M, negM);
+    tempString = compare(tempString, i, A, M, negM, Q, Q1, len);
     printOutput(A, Q, Q1, len, tempString, i);
+    $("#adivSAR" + len).css("color","#008000");
+    $("#qdivSAR" + len).css("color","#008000");
     console.log("---------------------------------------");
   }
+  $("#txtbutton").show()
 }
 
 //writeFile(M, A, Q, Q1, negM, tempString);
@@ -85,8 +88,8 @@ function checkLength(M, Q) {
 // This function is used to get A (zeros)
 // Parameter: M, the multiplicand.
 // Returns: The padded zeros with the same length as M & Q.
-function getA(M) {
-  return padZero(0, M.length);
+function getA(x) {
+  return padZero(0, x);
 }
 
 // This function is used to pad zeros.
@@ -162,13 +165,16 @@ function get2sComplement(M) {
 // This function checks the last digit of Q and Q-1
 // Parameter: tempString, the concatinated string.
 // Returns: tempString.
-function compare(tempString, z, A, M, negM, Q, Q1) {
+function compare(tempString, z, A, M, negM, Q, Q1, len) {
+  console.log("AISDGHIUSDBFSDBNFASDN" +len)
   let _len = tempString.length;
+  let textAM = "";
 
   if (tempString[_len - 2] == "1") {
     // if 1 & 1
     if (tempString[_len - 1] == "1") {
       console.log("Do nothing.");
+      textAM = "Keep";
     }
     // if 1 & 0
     else {
@@ -180,11 +186,13 @@ function compare(tempString, z, A, M, negM, Q, Q1) {
           (parseInt(tempString[i]) + parseInt(negM[i])).toString()
         );
       }
+      textAM = "A-M";
     }
   } else {
     // if 0 & 0
     if (tempString[_len - 1] == "0") {
       console.log("Do nothing.");
+      textAM = "Keep";
     }
     // if 0 & 1
     else {
@@ -196,33 +204,37 @@ function compare(tempString, z, A, M, negM, Q, Q1) {
           (parseInt(tempString[i]) + parseInt(M[i])).toString()
         );
       }
+      textAM = "A+M";
     }
   }
-
+  console.log(">>>>>>>>>>" + len);
   console.log(">>" + tempString);
   $(".SBSstep").append(
-    `<h4 class="border-top">Pass ${z + 1}:</h4>
+    `<h4 id="pass${
+      z + 1
+    }" class="border-top">Pass ${z + 1}:</h4>
     <div class="row">
       <div id="adivAM${
         z + 1
-      }" class="gCol col border border-dark"> A: ${tempString.slice(
+      }" class="gCol col-3 border border-dark"> A: ${tempString.slice(
       0,
       len
     )}</div>
       <div id="qdivAM${
         z + 1
-      }" class="gCol col border border-dark"> Q: ${tempString.slice(
+      }" class="gCol col-3 border border-dark"> Q: ${tempString.slice(
       len,
       len + len
     )}</div>
       <div id="q1divAM${
         z + 1
-      }" class="gCol col border border-dark"> Q<sub>-1</sub>: ${
+      }" class="gCol col-3 border border-dark"> Q<sub>-1</sub>: ${
       tempString[_len - 1]
     }</div>
+    <div id="divAM${z+1}" class="gCol col-3 border border-dark">${textAM}</div>
     </div>`
   );
-
+  $("#nxtbutton").show()
   return SAR(tempString);
 }
 
@@ -244,20 +256,22 @@ function printOutput(A, Q, Q1, len, tempString, ind) {
   for (let i = 0; i < 2 * len; i++) {
     if (i < len) {
       A = replaceAtIndex(A, i, tempString[i]);
-    } else if (i >= len && i != len) {
+    } else {
       Q = replaceAtIndex(Q, j, tempString[i]);
       j++;
     }
-    Q1 = replaceAtIndex(Q1, 0, tempString[tempString.length - 1]);
+
   }
+  Q1 = replaceAtIndex(Q1, 0, tempString[tempString.length - 1]);
   console.log("A: " + A + "   Q: " + Q + "M: " + "   Q1: " + Q1);
 
   $(".SBSstep").append(
     `
     <div class="row">
-      <div id="adivSAR${index}" class="gCol col border border-dark"> A: ${A}</div>
-      <div id="qdivSAR${index}" class="gCol col border border-dark"> Q: ${Q}</div>
-      <div id="q1divSAR${index}" class="gCol col border border-dark"> Q<sub>-1</sub>: ${Q1}</div>
+      <div id="adivSAR${index}" class="gCol col-3 border border-dark"> A: ${A}</div>
+      <div id="qdivSAR${index}" class="gCol col-3 border border-dark"> Q: ${Q}</div>
+      <div id="q1divSAR${index}" class="gCol col-3 border border-dark"> Q<sub>-1</sub>: ${Q1}</div>
+      <div id="divSAR${index}" class="gCol col-3 border border-dark">SAR</div>
     </div>`
   );
 }

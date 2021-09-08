@@ -24,12 +24,14 @@
         <input type="text" id="multiplicand" class="inp" name="multiplicand" placeholder="Multiplicand" required/>
         <br />
         <input type="text" id="multiplier" class="inp" name="multiplier" placeholder="Multiplier" required/>
+        <div id="errormsg" class="alert alert-danger">Error Wrong Input!</div>
+        <script>$("#errormsg").hide()</script>
           <br />
           <input
-            type="submit"
             class="buttonSubmit btn"
             id="submitSBS"
             value="Show Step-by-step"
+            onclick="initialize2();"
           />
           <input
             class="buttonSubmit btn"
@@ -42,22 +44,156 @@
     <script>
       function initialize()
       {
+        $("#SBSdiv").empty();
         var M = document.getElementById("multiplicand").value
         console.log(M)
         var Q = document.getElementById("multiplier").value
         console.log(Q)
         var Q1 = "0";
-        len = checkLength(M,Q); // Check the length of the multiplicand and multiplier.
-        var A  = getA(M); // Pads the zeros.
+        var len = M.length > Q.length ? M.length : Q.length; // Check the length of the multiplicand and multiplier.
 
-        tempString = A.concat(Q, Q1); // Concatinate
-        negM = get2sComplement(M); // Gets the 2's complement of M.
-        program(A,Q,Q1,M,negM,len,tempString)
+        if (M.length != Q.length) {
+          if (M.length < Q.length) {
+            if (M[0] == "0") {
+              M = padZero(M, Q.length);
+            } else {
+              M = padOne(M, Q.length );
+            }
+          } else {
+            if (Q[0] == "0") {
+              Q = padZero(Q, M.length);
+            } else {
+              Q = padOne(Q, M.length);
+            }
+          }
+        }
+
+        flag = 0;
+        for(inplen = 0; inplen < len; inplen++) {
+          if(M[inplen] != 0 && M[inplen] != 1) {
+            flag = 1;
+            $("#errormsg").show()
+            console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWW" + flag + "        " +  M[inplen])
+          }
+          else if(Q[inplen] != 0 && Q[inplen] != 1) {
+            flag = 1;
+            $("#errormsg").show()
+            console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQ" + flag + "        " + Q[inplen])
+          }
+        }
+
+        if(flag == 0) {
+          var A  = getA(len); // Pads the zeros.
+          $("#errormsg").hide()
+          tempString = A.concat(Q, Q1); // Concatinate
+          negM = get2sComplement(M); // Gets the 2's complement of M.
+          program(A,Q,Q1,M,negM,len,tempString);
+        }
+          $("#nxtbutton").hide()
+        }
+        var j = 1;
+        var tLen = 0;
+        function initialize2()
+        {
+
+          $("#SBSdiv").empty();
+          var M = document.getElementById("multiplicand").value
+          console.log(M)
+          var Q = document.getElementById("multiplier").value
+          console.log(Q)
+          var Q1 = "0";
+          var len = M.length > Q.length ? M.length : Q.length; // Check the length of the multiplicand and multiplier.
+
+
+          if (M.length != Q.length) {
+            if (M.length < Q.length) {
+              if (M[0] == "0") {
+                M = padZero(M, Q.length);
+              } else {
+                M = padOne(M, Q.length );
+              }
+            } else {
+              if (Q[0] == "0") {
+                Q = padZero(Q, M.length);
+              } else {
+                Q = padOne(Q, M.length);
+              }
+            }
+          }
+
+          flag = 0;
+          for(inplen = 0; inplen < len; inplen++) {
+            if(M[inplen] != 0 && M[inplen] != 1) {
+              flag = 1;
+              $("#errormsg").show()
+              console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWW" + flag + "        " +  M[inplen])
+            }
+            else if(Q[inplen] != 0 && Q[inplen] != 1) {
+              flag = 1;
+              $("#errormsg").show()
+              console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQ" + flag + "        " + Q[inplen])
+            }
+          }
+
+
+          if(flag == 0) {
+          console.log("QQQQQQQQQ" + Q);
+          tLen = len;
+          console.log("M" + M);
+          var A  = getA(len); // Pads the zeros.
+          console.log("A" + getA(len));
+          tempString = A.concat(Q, Q1); // Concatinate
+          negM = get2sComplement(M); // Gets the 2's complement of M.
+          console.log("LENGTH" + len);
+          program(A,Q,Q1,M,negM,len,tempString)
+          for(let i=0; i < len+1; i++){
+            $("#pass" + i).hide();
+            $("#tdivAM" + i).hide();
+            $("#adivAM" + i).hide();
+            $("#qdivAM" + i).hide();
+            $("#q1divAM" + i).hide();
+            $("#divAM" + i).hide();
+            $("#adivSAR" + i).hide();
+            $("#qdivSAR" + i).hide();
+            $("#q1divSAR" + i).hide();
+            $("#divSAR" + i).hide();
+          }
+        }
       }
     </script>
 
-    <div id="SBSdiv" class="container-fluid">
+    <div id="SBSdiv" class="container-fluid"></div>
+
+    <div id="txtfile" class="container">
+      <button id="nxtbutton" type="button" class="btn btn-primary" onclick="showSteps(j++);">Next Step</button>
+      <button id="txtbutton" type="button" class="btn btn-success" >Download Text File</button>
     </div>
+
+    <script>
+      function showSteps(k) {
+        $("#pass" + k).show();
+        $("#tdivAM" + k).show();
+        $("#adivAM" + k).show();
+        $("#qdivAM" + k).show();
+        $("#q1divAM" + k).show();
+        $("#divAM" + k).show();
+        $("#adivSAR" + k).show();
+        $("#qdivSAR" + k).show();
+        $("#q1divSAR" + k).show();
+        $("#divSAR" + k).show();
+        console.log(j + "wwwwwwwwwwwwwwwwwwwwwwwwwww");
+        if (k == tLen){
+          $("#nxtbutton").hide();
+          console.log(k + "-------------------------------------");
+          $("#adivSAR" + tLen).css("color","#008000");
+          $("#qdivSAR" + tLen).css("color","#008000");
+          j = 1;
+        }
+      }
+
+      $("#nxtbutton").hide()
+      $("#txtbutton").hide()
+    </script>
   </body>
 
 </html>
