@@ -42,6 +42,7 @@
       </form>
     </div>
     <script>
+      var saveLen
       function initialize()
       {
         $("#SBSdiv").empty();
@@ -51,7 +52,7 @@
         console.log(Q)
         var Q1 = "0";
         var len = M.length > Q.length ? M.length : Q.length; // Check the length of the multiplicand and multiplier.
-
+        saveLen = len
         if (M.length != Q.length) {
           if (M.length < Q.length) {
             if (M[0] == "0") {
@@ -166,7 +167,7 @@
 
     <div id="txtfile" class="container">
       <button id="nxtbutton" type="button" class="btn btn-primary" onclick="showSteps(j++);">Next Step</button>
-      <button id="txtbutton" type="button" class="btn btn-success" >Download Text File</button>
+      <button id="txtbutton" type="button" class="btn btn-success" onclick="save();">Download Text File</button>
     </div>
 
     <script>
@@ -190,6 +191,39 @@
           j = 1;
         }
       }
+      
+      function save() {
+        var data = getTextData();
+        var c = document.createElement("a");
+        c.download = "user-text.txt";
+
+        var t = new Blob([data], {
+        type: "text/plain"
+        });
+        c.href = window.URL.createObjectURL(t);
+        c.click();
+      }
+
+     function getTextData() {
+      var theTextData = [saveLen]
+
+      var M = document.getElementById("multiplicand").value
+      var Q = document.getElementById("multiplier").value
+      var A  = getA(saveLen);
+      var Q1 = "0";
+      var negM = get2sComplement(M)
+      
+      
+      theTextData[0] = "-M: " + negM + "\n M: " + M + "\n A: " + A + " Q: " + Q + " Q1: " + Q1
+
+      for(var i=1 ; i<saveLen+1 ; i++)
+      {
+        theTextData[i] = "\n\n" + "Pass " + i +
+        "\nA: " + $("#adivAM"+i) + "Q: " + toString("qdivAM" + i) + "Q1: " + toString.getElementById("#q1divAM" + i)+ toString("divAM" + i) +"\n"
+      }
+
+      return theTextData
+     }
 
       $("#nxtbutton").hide()
       $("#txtbutton").hide()
