@@ -51,7 +51,9 @@
           placeholder="Multiplier"
           required
         />
-        <div id="errormsg" class="alert alert-danger">Invalid Input!</div>
+        <div id="errormsg" class="alert alert-danger">
+          Error: Invalid Input!
+        </div>
         <script>
           $("#errormsg").hide();
         </script>
@@ -213,10 +215,8 @@
         $("#qdivSAR" + k).show();
         $("#q1divSAR" + k).show();
         $("#divSAR" + k).show();
-        console.log(j + "wwwwwwwwwwwwwwwwwwwwwwwwwww");
         if (k == tLen) {
           $("#nxtbutton").hide();
-          console.log(k + "-------------------------------------");
           $("#adivSAR" + tLen).css("color", "#008000");
           $("#qdivSAR" + tLen).css("color", "#008000");
           j = 1;

@@ -1,20 +1,4 @@
 // Sequential Circuit Binary Multiplier
-// TODO: Add validator for MAX of 16-bit length yung multiplier and multiplicand.
-// TODO: Input: binary (use minimum number of bits; max up to 16-bit) & check if binary input or not
-// TODO: Output: Option to show either step-by-step or “all” mode of the A and Q output after every step with option to output result in TEXT FILE.
-// TODO: Writetextfile() is in line 216.
-
-// Initializations
-
-// TODO: For checking -- remove afterwards
-// ---------------------------------------------------------------------------------------
-//console.log("XX-------------------------------------XX");
-//print(negM, M, A, Q, Q1); // TODO: remove this afterwards
-//console.log("XX-------------------------------------XX"); // TODO: remove this afterwards
-//console.log(); // TODO: remove this afterwards
-// ---------------------------------------------------------------------------------------
-
-//program(A, Q, len, tempString);
 
 // This function is used to compute for the sequential binary circuit.
 // Parameter: len, the length of the binaries; tempString, concatinated string.
@@ -38,27 +22,13 @@ function program(A, Q, Q1, M, negM, len, tempString) {
   );
   for (let i = 0; i < len; i++) {
     console.log(i + 1 + ".)");
-
     tempString = compare(tempString, i, A, M, negM, Q, Q1, len);
     printOutput(A, Q, Q1, len, tempString, i);
-    $("#adivSAR" + len).css("color","#008000");
-    $("#qdivSAR" + len).css("color","#008000");
-    console.log("---------------------------------------");
+    $("#adivSAR" + len).css("color", "#008000");
+    $("#qdivSAR" + len).css("color", "#008000");
   }
-  $("#txtbutton").show()
+  $("#txtbutton").show();
 }
-
-//writeFile(M, A, Q, Q1, negM, tempString);
-
-// TODO: For checking -- remove afterwards
-// ---------------------------------------------------------------------------------------
-function print(negM, M, A, Q, Q1) {
-  console.log("  -M: " + negM);
-  console.log("  M: " + M);
-  console.log("  A: " + A + "  Q: " + Q + " Q-1: " + Q1);
-  return true;
-}
-// ---------------------------------------------------------------------------------------
 
 // This function checks the length of the multiplicand and multiplier.
 // Otherwise, adjust it so that it will have the same length.
@@ -111,7 +81,6 @@ function padOne(num, digits) {
 // Parameter: str, string; index to be replaced, character to be replaced.
 // Returns: updated string.
 function replaceAtIndex(str, index, char) {
-  // console.log("str: " + str + "  |  index: " + index + "  |  char" + char);
   if (index > str.length - 1) {
     return str;
   } else {
@@ -166,7 +135,6 @@ function get2sComplement(M) {
 // Parameter: tempString, the concatinated string.
 // Returns: tempString.
 function compare(tempString, z, A, M, negM, Q, Q1, len) {
-  console.log("AISDGHIUSDBFSDBNFASDN" +len)
   let _len = tempString.length;
   let textAM = "";
 
@@ -174,7 +142,7 @@ function compare(tempString, z, A, M, negM, Q, Q1, len) {
     // if 1 & 1
     if (tempString[_len - 1] == "1") {
       console.log("Do nothing.");
-      textAM = "Keep";
+      textAM = "Do nothing.";
     }
     // if 1 & 0
     else {
@@ -192,7 +160,7 @@ function compare(tempString, z, A, M, negM, Q, Q1, len) {
     // if 0 & 0
     if (tempString[_len - 1] == "0") {
       console.log("Do nothing.");
-      textAM = "Keep";
+      textAM = "Do nothing.";
     }
     // if 0 & 1
     else {
@@ -210,9 +178,7 @@ function compare(tempString, z, A, M, negM, Q, Q1, len) {
   console.log(">>>>>>>>>>" + len);
   console.log(">>" + tempString);
   $(".SBSstep").append(
-    `<h4 id="pass${
-      z + 1
-    }" class="border-top">Pass ${z + 1}:</h4>
+    `<h4 id="pass${z + 1}" class="border-top">Step ${z + 1}:</h4>
     <div class="row">
       <div id="adivAM${
         z + 1
@@ -231,10 +197,12 @@ function compare(tempString, z, A, M, negM, Q, Q1, len) {
       }" class="gCol col-3 border border-dark"> Q<sub>-1</sub>: ${
       tempString[_len - 1]
     }</div>
-    <div id="divAM${z+1}" class="gCol col-3 border border-dark">${textAM}</div>
+    <div id="divAM${
+      z + 1
+    }" class="gCol col-3 border border-dark">${textAM}</div>
     </div>`
   );
-  $("#nxtbutton").show()
+  $("#nxtbutton").show();
   return SAR(tempString);
 }
 
@@ -253,6 +221,7 @@ function SAR(tempString) {
 function printOutput(A, Q, Q1, len, tempString, ind) {
   let index = ind + 1;
   let j = 0;
+
   for (let i = 0; i < 2 * len; i++) {
     if (i < len) {
       A = replaceAtIndex(A, i, tempString[i]);
@@ -260,7 +229,6 @@ function printOutput(A, Q, Q1, len, tempString, ind) {
       Q = replaceAtIndex(Q, j, tempString[i]);
       j++;
     }
-
   }
   Q1 = replaceAtIndex(Q1, 0, tempString[tempString.length - 1]);
   console.log("A: " + A + "   Q: " + Q + "M: " + "   Q1: " + Q1);
