@@ -5,59 +5,91 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="index.js">
-
-    </script>
-    <title>Testing 1</title>
+    <script src="index.js"></script>
+    <title>CSARCH S11 | Group 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css?family=Assistant:400,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap"
       rel="stylesheet"
     />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="all" href="style.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" media="all" href="style.css" />
   </head>
   <body>
-
     <div class="container">
-      <form class="form-signin" action="">
-        <h1 class="form-signin-heading">Sequential Circuit Binary Multiplier</h1>
-        <input type="text" id="multiplicand" class="inp" name="multiplicand" placeholder="Multiplicand" required/>
+      <form>
+        <h1>Sequential Circuit Binary Multiplier</h1>
+        <div class="instructions">
+          <h5>Instructions:</h5>
+          <ul>
+            <li>Input should be in binary.</li>
+            <li>Use minimum number of bits.</li>
+            <li>Maximum up to 16-bit.</li>
+          </ul>
+        </div>
+
+        <input
+          type="text"
+          id="multiplicand"
+          class="inp"
+          name="multiplicand"
+          placeholder="Multiplicand"
+          required
+        />
         <br />
-        <input type="text" id="multiplier" class="inp" name="multiplier" placeholder="Multiplier" required/>
-        <div id="errormsg" class="alert alert-danger">Error Wrong Input!</div>
-        <script>$("#errormsg").hide()</script>
-          <br />
-          <input
-            class="buttonSubmit btn"
-            id="submitSBS"
-            value="Show Step-by-step"
-            onclick="initialize2();"
-          />
-          <input
-            class="buttonSubmit btn"
-            id="submitALL"
-            value="Show All"
-            onclick="initialize();"
-          />
+        <input
+          type="text"
+          id="multiplier"
+          class="inp"
+          name="multiplier"
+          placeholder="Multiplier"
+          required
+        />
+        <div id="errormsg" class="alert alert-danger">Invalid Input!</div>
+        <script>
+          $("#errormsg").hide();
+        </script>
+        <br />
+        <input
+          class="buttonSubmit btn"
+          id="submitSBS"
+          value="Show Step-by-step"
+          onclick="initSBS();"
+        />
+        <input
+          class="buttonSubmit btn"
+          id="submitALL"
+          value="Show All"
+          onclick="initALL();"
+        />
       </form>
     </div>
     <script>
-      function initialize()
-      {
+      function initALL() {
         $("#SBSdiv").empty();
-        var M = document.getElementById("multiplicand").value
-        console.log(M)
-        var Q = document.getElementById("multiplier").value
-        console.log(Q)
+        var M = document.getElementById("multiplicand").value;
+        var Q = document.getElementById("multiplier").value;
         var Q1 = "0";
         var len = M.length > Q.length ? M.length : Q.length; // Check the length of the multiplicand and multiplier.
+
+        flag = 0;
+        if (M.length == 0 || M.length > 16 || Q.length == 0 || Q.length > 16) {
+          flag = 1;
+          $("#errormsg").show();
+        }
 
         if (M.length != Q.length) {
           if (M.length < Q.length) {
             if (M[0] == "0") {
               M = padZero(M, Q.length);
             } else {
-              M = padOne(M, Q.length );
+              M = padOne(M, Q.length);
             }
           } else {
             if (Q[0] == "0") {
@@ -68,85 +100,76 @@
           }
         }
 
+        for (inplen = 0; inplen < len; inplen++) {
+          if (M[inplen] != 0 && M[inplen] != 1) {
+            flag = 1;
+            $("#errormsg").show();
+          } else if (Q[inplen] != 0 && Q[inplen] != 1) {
+            flag = 1;
+            $("#errormsg").show();
+          }
+        }
+
+        if (flag == 0) {
+          var A = getA(len); // Pads the zeros.
+          $("#errormsg").hide();
+          tempString = A.concat(Q, Q1); // Concatinate
+          negM = get2sComplement(M); // Gets the 2's complement of M.
+          program(A, Q, Q1, M, negM, len, tempString);
+        }
+        $("#nxtbutton").hide();
+      }
+      var j = 1;
+      var tLen = 0;
+      function initSBS() {
+        $("#SBSdiv").empty();
+        var M = document.getElementById("multiplicand").value;
+        var Q = document.getElementById("multiplier").value;
+        var Q1 = "0";
+        var len = M.length > Q.length ? M.length : Q.length; // Check the length of the multiplicand and multiplier.
+
         flag = 0;
-        for(inplen = 0; inplen < len; inplen++) {
-          if(M[inplen] != 0 && M[inplen] != 1) {
-            flag = 1;
-            $("#errormsg").show()
-            console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWW" + flag + "        " +  M[inplen])
-          }
-          else if(Q[inplen] != 0 && Q[inplen] != 1) {
-            flag = 1;
-            $("#errormsg").show()
-            console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQ" + flag + "        " + Q[inplen])
-          }
+
+        if (M.length == 0 || M.length > 16 || Q.length == 0 || Q.length > 16) {
+          flag = 1;
+          $("#errormsg").show();
         }
 
-        if(flag == 0) {
-          var A  = getA(len); // Pads the zeros.
-          $("#errormsg").hide()
-          tempString = A.concat(Q, Q1); // Concatinate
-          negM = get2sComplement(M); // Gets the 2's complement of M.
-          program(A,Q,Q1,M,negM,len,tempString);
-        }
-          $("#nxtbutton").hide()
-        }
-        var j = 1;
-        var tLen = 0;
-        function initialize2()
-        {
-
-          $("#SBSdiv").empty();
-          var M = document.getElementById("multiplicand").value
-          console.log(M)
-          var Q = document.getElementById("multiplier").value
-          console.log(Q)
-          var Q1 = "0";
-          var len = M.length > Q.length ? M.length : Q.length; // Check the length of the multiplicand and multiplier.
-
-
-          if (M.length != Q.length) {
-            if (M.length < Q.length) {
-              if (M[0] == "0") {
-                M = padZero(M, Q.length);
-              } else {
-                M = padOne(M, Q.length );
-              }
+        if (M.length != Q.length) {
+          if (M.length < Q.length) {
+            if (M[0] == "0") {
+              M = padZero(M, Q.length);
             } else {
-              if (Q[0] == "0") {
-                Q = padZero(Q, M.length);
-              } else {
-                Q = padOne(Q, M.length);
-              }
+              M = padOne(M, Q.length);
+            }
+          } else {
+            if (Q[0] == "0") {
+              Q = padZero(Q, M.length);
+            } else {
+              Q = padOne(Q, M.length);
             }
           }
+        }
 
+        for (inplen = 0; inplen < len; inplen++) {
+          if (M[inplen] != 0 && M[inplen] != 1) {
+            flag = 1;
+            $("#errormsg").show();
+          } else if (Q[inplen] != 0 && Q[inplen] != 1) {
+            flag = 1;
+            $("#errormsg").show();
+          }
+        }
+
+        if (flag == 0) {
+          $("#errormsg").hide();
           flag = 0;
-          for(inplen = 0; inplen < len; inplen++) {
-            if(M[inplen] != 0 && M[inplen] != 1) {
-              flag = 1;
-              $("#errormsg").show()
-              console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWW" + flag + "        " +  M[inplen])
-            }
-            else if(Q[inplen] != 0 && Q[inplen] != 1) {
-              flag = 1;
-              $("#errormsg").show()
-              console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQ" + flag + "        " + Q[inplen])
-            }
-          }
-
-
-          if(flag == 0) {
-          console.log("QQQQQQQQQ" + Q);
           tLen = len;
-          console.log("M" + M);
-          var A  = getA(len); // Pads the zeros.
-          console.log("A" + getA(len));
+          var A = getA(len); // Pads the zeros.
           tempString = A.concat(Q, Q1); // Concatinate
           negM = get2sComplement(M); // Gets the 2's complement of M.
-          console.log("LENGTH" + len);
-          program(A,Q,Q1,M,negM,len,tempString)
-          for(let i=0; i < len+1; i++){
+          program(A, Q, Q1, M, negM, len, tempString);
+          for (let i = 0; i < len + 1; i++) {
             $("#pass" + i).hide();
             $("#tdivAM" + i).hide();
             $("#adivAM" + i).hide();
@@ -165,8 +188,17 @@
     <div id="SBSdiv" class="container-fluid"></div>
 
     <div id="txtfile" class="container">
-      <button id="nxtbutton" type="button" class="btn btn-primary" onclick="showSteps(j++);">Next Step</button>
-      <button id="txtbutton" type="button" class="btn btn-success" >Download Text File</button>
+      <button
+        id="nxtbutton"
+        type="button"
+        class="btn btn-primary"
+        onclick="showSteps(j++);"
+      >
+        Next Step
+      </button>
+      <button id="txtbutton" type="button" class="btn btn-success">
+        Download Text File
+      </button>
     </div>
 
     <script>
@@ -182,18 +214,17 @@
         $("#q1divSAR" + k).show();
         $("#divSAR" + k).show();
         console.log(j + "wwwwwwwwwwwwwwwwwwwwwwwwwww");
-        if (k == tLen){
+        if (k == tLen) {
           $("#nxtbutton").hide();
           console.log(k + "-------------------------------------");
-          $("#adivSAR" + tLen).css("color","#008000");
-          $("#qdivSAR" + tLen).css("color","#008000");
+          $("#adivSAR" + tLen).css("color", "#008000");
+          $("#qdivSAR" + tLen).css("color", "#008000");
           j = 1;
         }
       }
 
-      $("#nxtbutton").hide()
-      $("#txtbutton").hide()
+      $("#nxtbutton").hide();
+      $("#txtbutton").hide();
     </script>
   </body>
-
 </html>
