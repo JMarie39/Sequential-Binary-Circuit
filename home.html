@@ -219,7 +219,8 @@
       for(var i=1 ; i<saveLen+1 ; i++)
       {
         theTextData[i] = "\n\n" + "Pass " + i +
-        "\nA: " + $("#adivAM"+i) + "Q: " + toString("qdivAM" + i) + "Q1: " + toString.getElementById("#q1divAM" + i)+ toString("divAM" + i) +"\n"
+        "\n" + $("#adivAM"+i).text() +  $("#qdivAM"+i).text() +  $("#q1divAM" + i).text() + "    " + $("#divAM" + i).text() +"\n" +
+        "\n" + $("#adivSAR"+i).text()  + $("#qdivSAR"+i).text() +  $("#q1divSAR" + i).text() + "    " + $("#divSAR" + i).text() +"\n"
       }
 
       return theTextData
