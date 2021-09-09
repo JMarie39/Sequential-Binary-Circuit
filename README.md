@@ -15,15 +15,17 @@ A student-project creating a Sequential Binary Circuit calculator.
 
 - [home.html](home.html) - Contains the html file of the program.
 - [index.js](index.js) - Contains the javscript of the program.
-- [style.css](style.css) - Contains style sheet of the program.
+- [style.css](style.css) - Contains the style sheet of the program.
 
 ### Instructions:
 
-- Input the **multiplicand** and **multiplier**.
-- Choose whether to show _step-by-step_ or _all_.
+- Inputs SHOULD BE in binary.
+  - Uses minimum number of bits.
+  - Max up to 16-bit.
+- Output has an option to choose whether to show _step-by-step_ or _all_.
   - Step-by-step
-    - Once this is clicked, the user should finish showing the output in order to be able to input a new value for **multiplicand** and **multiplier**.
-    - If the user suddenly updated the input fields the user should click the _step-by-step_ button. Otherwise, if the user clicked the _next step_ it would still show the step in the previous input.
+    - Once this is clicked, the user should finish showing the output in order to be able to input a new value for **multiplicand** and/or **multiplier**.
+    - If the user suddenly updated the input fields the user should click the show _step-by-step_ button. Otherwise, if the user clicked the _next step_ it would still show the next step of the previous input.
   - All
     - This shows the whole output.
 - Have fun and enjoy.
