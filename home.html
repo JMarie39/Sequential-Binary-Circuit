@@ -197,9 +197,7 @@
         var c = document.createElement("a");
         c.download = "SCBM Output.txt";
 
-        var t = new Blob([data], {
-        type: "text/plain"
-        });
+        var t = new Blob(data);
         c.href = window.URL.createObjectURL(t);
         c.click();
       }
@@ -214,7 +212,7 @@
       var negM = get2sComplement(M)
       
       
-      theTextData[0] = "-M: " + negM + "\n M: " + M + "\n A: " + A + " Q: " + Q + " Q1: " + Q1
+      theTextData[0] = "-M: " + negM + "\n M: " + M + "\n A: " + A + " Q: " + Q + " Q1: " + Q1 
 
       for(var i=1 ; i<saveLen+1 ; i++)
       {
