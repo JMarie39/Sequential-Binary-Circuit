@@ -243,31 +243,3 @@ function printOutput(A, Q, Q1, len, tempString, ind) {
     </div>`
   );
 }
-
-// This function is used to write the answer in a text file.
-function writeFile(M, A, Q, Q1, negM, tempString) {
-  const fs = require("fs");
-
-  // Data which will write in a file.
-  let data =
-    "Multiplicand: " +
-    M +
-    "\n  Multiplier: " +
-    Q +
-    "\n\n-M: " +
-    negM +
-    "\n M: " +
-    M +
-    "\t A: " +
-    A +
-    "\t Q: " +
-    Q +
-    "\t Q-1: " +
-    Q1;
-
-  // Write data in 'Output.txt' .
-  fs.writeFile("Output.txt", data, (err) => {
-    // In case of a error throw err.
-    if (err) throw err;
-  });
-}
