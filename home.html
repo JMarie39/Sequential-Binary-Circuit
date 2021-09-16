@@ -139,6 +139,7 @@
         j = 1;
         $("#SBSdiv").empty();
         $("#txtbutton").hide();
+        $("#nxtbutton").hide();
         var M = document.getElementById("multiplicand").value;
         var Q = document.getElementById("multiplier").value;
         var Q1 = "0";
@@ -149,6 +150,7 @@
         if (M.length == 0 || M.length > 16 || Q.length == 0 || Q.length > 16) {
           flag = 1;
           $("#errormsg").show();
+          $("#nxtbutton").hide();
         }
 
         if (M.length != Q.length) {
