@@ -244,39 +244,9 @@ function printOutput(A, Q, Q1, len, tempString, ind) {
   );
 }
 
-
-
-function getTextData() {
-  var theTextData = [saveLen];
-
-  var M = document.getElementById("multiplicand").value;
-  var Q = document.getElementById("multiplier").value;
-  var A = getA(saveLen);
-  var Q1 = "0";
-  var negM = get2sComplement(M);
-
-  theTextData[0] =
-    "-M: " + negM + "\n M: " + M + "\n A: " + A + " Q: " + Q + " Q1: " + Q1;
-
-  for (var i = 1; i < saveLen + 1; i++) {
-    theTextData[i] =
-      "\n\n" +
-      "Step " +
-      i +
-      ":\n" +
-      $("#adivAM" + i).text() +
-      $("#qdivAM" + i).text() +
-      $("#q1divAM" + i).text() +
-      "    " +
-      $("#divAM" + i).text() +
-      "\n" +
-      $("#adivSAR" + i).text() +
-      $("#qdivSAR" + i).text() +
-      $("#q1divSAR" + i).text() +
-      "    " +
-      $("#divSAR" + i).text() +
-      "\n";
-  }
-
-  return theTextData;
+function clearALL() {
+  $("#nxtbutton").hide();
+  $("#errormsg").hide();
+  $("#txtbutton").hide();
+  $("#SBSdiv").empty();
 }

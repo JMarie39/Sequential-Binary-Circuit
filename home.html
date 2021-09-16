@@ -52,7 +52,7 @@
           required
         />
         <div id="errormsg" class="alert alert-danger">
-          Error: Invalid Input!
+          Error: Invalid input!
         </div>
         <script>
           $("#errormsg").hide();
@@ -69,6 +69,14 @@
           id="submitALL"
           value="Show All"
           onclick="initALL();"
+        />
+        <br />
+        <input
+          class="buttonSubmit btn"
+          id="clear"
+          value="Clear"
+          type="reset"
+          onclick="clearALL()"
         />
       </form>
     </div>
@@ -124,7 +132,7 @@
       var j = 1;
       var tLen = 0;
       function initSBS() {
-        j=1;
+        j = 1;
         $("#SBSdiv").empty();
         var M = document.getElementById("multiplicand").value;
         var Q = document.getElementById("multiplier").value;
@@ -231,7 +239,9 @@
       }
       $("#nxtbutton").hide();
       $("#txtbutton").hide();
+    </script>
 
+    <script>
       function save() {
         var data = getTextData();
         var c = document.createElement("a");
@@ -240,6 +250,49 @@
         var t = new Blob(data);
         c.href = window.URL.createObjectURL(t);
         c.click();
+      }
+
+      function getTextData() {
+        var theTextData = [saveLen];
+
+        var M = document.getElementById("multiplicand").value;
+        var Q = document.getElementById("multiplier").value;
+        var A = getA(saveLen);
+        var Q1 = "0";
+        var negM = get2sComplement(M);
+
+        theTextData[0] =
+          "-M: " +
+          negM +
+          "\n M: " +
+          M +
+          "\n A: " +
+          A +
+          " Q: " +
+          Q +
+          " Q1: " +
+          Q1;
+
+        for (var i = 1; i < saveLen + 1; i++) {
+          theTextData[i] =
+            "\n\n" +
+            "Step " +
+            i +
+            ":\n" +
+            $("#adivAM" + i).text() +
+            $("#qdivAM" + i).text() +
+            $("#q1divAM" + i).text() +
+            "    " +
+            $("#divAM" + i).text() +
+            "\n" +
+            $("#adivSAR" + i).text() +
+            $("#qdivSAR" + i).text() +
+            $("#q1divSAR" + i).text() +
+            "    " +
+            $("#divSAR" + i).text() +
+            "\n";
+        }
+        return theTextData;
       }
     </script>
   </body>
