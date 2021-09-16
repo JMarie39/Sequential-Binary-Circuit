@@ -140,7 +140,7 @@
         var Q = document.getElementById("multiplier").value;
         var Q1 = "0";
         var len = M.length > Q.length ? M.length : Q.length; // Check the length of the multiplicand and multiplier.
-
+        saveLen = len;
         flag = 0;
 
         if (M.length == 0 || M.length > 16 || Q.length == 0 || Q.length > 16) {
