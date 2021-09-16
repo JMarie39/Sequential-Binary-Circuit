@@ -26,6 +26,7 @@ A student-project creating a Sequential Binary Circuit calculator.
   - Step-by-step
     - Once this is clicked, the user should finish showing the output in order to be able to input a new value for **multiplicand** and/or **multiplier**.
     - If the user suddenly updated the input fields the user should click the show _step-by-step_ button. Otherwise, if the user clicked the _next step_ it would still show the next step of the previous input.
+    - The downloading of text file will not be visibile unless the step is finished.
   - All
     - This shows the whole output.
   - Clear
