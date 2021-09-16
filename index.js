@@ -27,7 +27,7 @@ function program(A, Q, Q1, M, negM, len, tempString) {
     $("#adivSAR" + len).css("color", "#008000");
     $("#qdivSAR" + len).css("color", "#008000");
   }
-  $("#txtbutton").show();
+  $("#txtbutton").hide();
 }
 
 // This function checks the length of the multiplicand and multiplier.
@@ -242,6 +242,50 @@ function printOutput(A, Q, Q1, len, tempString, ind) {
       <div id="divSAR${index}" class="gCol col-3 border border-dark">SAR</div>
     </div>`
   );
+}
+
+function save() {
+  var data = getTextData();
+  var c = document.createElement("a");
+  c.download = "SCBM Output.txt";
+
+  var t = new Blob(data);
+  c.href = window.URL.createObjectURL(t);
+  c.click();
+}
+
+function getTextData() {
+  var theTextData = [saveLen];
+
+  var M = document.getElementById("multiplicand").value;
+  var Q = document.getElementById("multiplier").value;
+  var A = getA(saveLen);
+  var Q1 = "0";
+  var negM = get2sComplement(M);
+
+  theTextData[0] =
+    "-M: " + negM + "\n M: " + M + "\n A: " + A + " Q: " + Q + " Q1: " + Q1;
+
+  for (var i = 1; i < saveLen + 1; i++) {
+    theTextData[i] =
+      "\n\n" +
+      "Step " +
+      i +
+      ":\n" +
+      $("#adivAM" + i).text() +
+      $("#qdivAM" + i).text() +
+      $("#q1divAM" + i).text() +
+      "    " +
+      $("#divAM" + i).text() +
+      "\n" +
+      $("#adivSAR" + i).text() +
+      $("#qdivSAR" + i).text() +
+      $("#q1divSAR" + i).text() +
+      "    " +
+      $("#divSAR" + i).text() +
+      "\n";
+  }
+  return theTextData;
 }
 
 function clearALL() {
