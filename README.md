@@ -28,6 +28,4 @@ A student-project creating a Sequential Binary Circuit calculator.
     - If the user suddenly updated the input fields the user should click the show _step-by-step_ button. Otherwise, if the user clicked the _next step_ it would still show the next step of the previous input.
   - All
     - This shows the whole output.
-  - Clear
-    - This clears the inputs and the solutions.
 - Have fun and enjoy.

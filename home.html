@@ -52,7 +52,7 @@
           required
         />
         <div id="errormsg" class="alert alert-danger">
-          Error: Invalid input!
+          Error: Invalid Input!
         </div>
         <script>
           $("#errormsg").hide();
@@ -70,17 +70,8 @@
           value="Show All"
           onclick="initALL();"
         />
-        <br />
-        <input
-          class="buttonSubmit btn"
-          id="clear"
-          value="Clear"
-          type="reset"
-          onclick="clearALL()"
-        />
       </form>
     </div>
-
     <script>
       var saveLen;
       function initALL() {
@@ -133,6 +124,7 @@
       var j = 1;
       var tLen = 0;
       function initSBS() {
+        j=1;
         $("#SBSdiv").empty();
         var M = document.getElementById("multiplicand").value;
         var Q = document.getElementById("multiplier").value;
@@ -219,6 +211,7 @@
 
     <script>
       function showSteps(k) {
+        console.log(k);
         $("#pass" + k).show();
         $("#tdivAM" + k).show();
         $("#adivAM" + k).show();
@@ -238,6 +231,16 @@
       }
       $("#nxtbutton").hide();
       $("#txtbutton").hide();
+
+      function save() {
+        var data = getTextData();
+        var c = document.createElement("a");
+        c.download = "SCBM Output.txt";
+
+        var t = new Blob(data);
+        c.href = window.URL.createObjectURL(t);
+        c.click();
+      }
     </script>
   </body>
 </html>

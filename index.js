@@ -244,15 +244,7 @@ function printOutput(A, Q, Q1, len, tempString, ind) {
   );
 }
 
-function save() {
-  var data = getTextData();
-  var c = document.createElement("a");
-  c.download = "SCBM Output.txt";
 
-  var t = new Blob(data);
-  c.href = window.URL.createObjectURL(t);
-  c.click();
-}
 
 function getTextData() {
   var theTextData = [saveLen];
@@ -287,11 +279,4 @@ function getTextData() {
   }
 
   return theTextData;
-}
-
-function clearALL() {
-  $("#nxtbutton").hide();
-  $("#errormsg").hide();
-  $("#txtbutton").hide();
-  $("#SBSdiv").empty();
 }
