@@ -83,6 +83,7 @@
     <script>
       var saveLen;
       function initALL() {
+        $("#txtbutton").hide();
         $("#SBSdiv").empty();
         var M = document.getElementById("multiplicand").value;
         var Q = document.getElementById("multiplier").value;
@@ -93,6 +94,7 @@
         if (M.length == 0 || M.length > 16 || Q.length == 0 || Q.length > 16) {
           flag = 1;
           $("#errormsg").show();
+          $("#txtbutton").hide();
         }
         if (M.length != Q.length) {
           if (M.length < Q.length) {
@@ -123,13 +125,13 @@
         if (flag == 0) {
           var A = getA(len); // Pads the zeros.
           $("#errormsg").hide();
-          $("#txtbutton").show();
           tempString = A.concat(Q, Q1); // Concatinate
           negM = get2sComplement(M); // Gets the 2's complement of M.
           program(A, Q, Q1, M, negM, len, tempString);
+          $("#txtbutton").show();
         }
         $("#nxtbutton").hide();
-        
+
       }
       var j = 1;
       var tLen = 0;
