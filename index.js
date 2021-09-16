@@ -288,3 +288,10 @@ function getTextData() {
 
   return theTextData;
 }
+
+function clearALL() {
+  $("#nxtbutton").hide();
+  $("#errormsg").hide();
+  $("#txtbutton").hide();
+  $("#SBSdiv").empty();
+}

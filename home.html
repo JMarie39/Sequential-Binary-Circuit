@@ -52,7 +52,7 @@
           required
         />
         <div id="errormsg" class="alert alert-danger">
-          Error: Invalid Input!
+          Error: Invalid input!
         </div>
         <script>
           $("#errormsg").hide();
@@ -70,8 +70,17 @@
           value="Show All"
           onclick="initALL();"
         />
+        <br />
+        <input
+          class="buttonSubmit btn"
+          id="clear"
+          value="clear"
+          type="reset"
+          onclick="clearALL()"
+        />
       </form>
     </div>
+
     <script>
       var saveLen;
       function initALL() {
