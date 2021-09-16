@@ -123,12 +123,13 @@
         if (flag == 0) {
           var A = getA(len); // Pads the zeros.
           $("#errormsg").hide();
+          $("#txtbutton").show();
           tempString = A.concat(Q, Q1); // Concatinate
           negM = get2sComplement(M); // Gets the 2's complement of M.
           program(A, Q, Q1, M, negM, len, tempString);
         }
         $("#nxtbutton").hide();
-        $("#txtbutton").show();
+        
       }
       var j = 1;
       var tLen = 0;
